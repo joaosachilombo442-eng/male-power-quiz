@@ -1,0 +1,868 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head><base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/HHBefWKxqLiqh8i6cdPFBawIRbLWHRU9/770c6993-5a61-4ddc-920e-b4e5f6ad7c01/files/">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Male Power Code – Descobre O Que Te Está a Travar</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #D4A017;
+    --gold-light: #F5C842;
+    --gold-glow: rgba(212,160,23,0.25);
+    --bg: #0A0A0A;
+    --bg2: #111111;
+    --bg3: #1A1A1A;
+    --text: #F0F0F0;
+    --muted: #888;
+  }
+
+  html, body {
+    height: 100%;
+    background: #000;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  #app {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* ── BARRA DE PROGRESSO ── */
+  #progress-wrap {
+    position: fixed;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100%; max-width: 480px;
+    z-index: 100;
+    background: var(--bg2);
+    padding: 12px 20px 10px;
+    display: none;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  #progress-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+    display: flex;
+    justify-content: space-between;
+  }
+  #progress-bar-track {
+    width: 100%;
+    height: 4px;
+    background: #222;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  #progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* ── ECRÃS ── */
+  .screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 80px 24px 48px;
+    animation: fadeSlideIn 0.45s cubic-bezier(.4,0,.2,1) both;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeSlideOut {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-28px); }
+  }
+  .screen.leaving {
+    display: flex;
+    animation: fadeSlideOut 0.28s cubic-bezier(.4,0,.2,1) both;
+  }
+
+  /* ── INTRO ── */
+  #screen-intro {
+    background: radial-gradient(ellipse at 50% 25%, rgba(212,160,23,0.09) 0%, transparent 70%), var(--bg);
+    text-align: center;
+  }
+  .intro-badge {
+    display: inline-block;
+    background: rgba(212,160,23,0.1);
+    border: 1px solid rgba(212,160,23,0.3);
+    color: var(--gold-light);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 99px;
+    margin-bottom: 30px;
+  }
+  .intro-headline {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(26px, 8vw, 38px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #FFF;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .intro-headline span { color: var(--gold-light); }
+  .intro-divider {
+    width: 50px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 24px;
+  }
+  .intro-sub {
+    font-size: 15px;
+    color: #AAA;
+    line-height: 1.65;
+    max-width: 340px;
+    margin: 0 auto 40px;
+  }
+
+  .shield-wrap { margin-bottom: 32px; }
+  .shield-svg  { filter: drop-shadow(0 0 22px rgba(212,160,23,0.45)); }
+
+  /* ── BOTÕES ── */
+  .btn-primary {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: #000;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 30px rgba(212,160,23,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+    text-align: center;
+    text-decoration: none;
+  }
+  .btn-primary:active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 15px rgba(212,160,23,0.2);
+  }
+
+  .btn-cta-final {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #E67E22, #F39C12, #F5C842);
+    color: #000;
+    font-family: 'Oswald', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 8px 40px rgba(230,126,34,0.5);
+    animation: pulse-glow 2s ease-in-out infinite;
+    text-decoration: none;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1.3;
+  }
+  @keyframes pulse-glow {
+    0%,100% { box-shadow: 0 8px 40px rgba(230,126,34,0.5); transform: scale(1); }
+    50%      { box-shadow: 0 12px 65px rgba(230,126,34,0.75); transform: scale(1.025); }
+  }
+
+  /* ── PERGUNTA ── */
+  .q-number {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .q-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(20px, 5.5vw, 27px);
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    color: #FFF;
+    margin-bottom: 34px;
+    max-width: 380px;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .option-btn {
+    width: 100%;
+    padding: 17px 18px;
+    background: var(--bg3);
+    border: 1.5px solid #252525;
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 14.5px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    line-height: 1.4;
+  }
+  .option-btn:hover, .option-btn:focus {
+    background: #202020;
+    border-color: var(--gold);
+    outline: none;
+  }
+  .option-btn:active { transform: scale(0.98); }
+  .option-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    min-width: 34px;
+    background: rgba(212,160,23,0.1);
+    border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--gold-light);
+  }
+  .option-btn.selected {
+    background: rgba(212,160,23,0.1);
+    border-color: var(--gold);
+  }
+  .option-btn.selected .option-label {
+    background: var(--gold);
+    color: #000;
+    border-color: var(--gold);
+  }
+
+  /* ── LOADING ── */
+  #screen-loading { text-align: center; background: var(--bg); }
+  .loading-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+  }
+  .loading-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; }
+  .loader-bar-track {
+    width: 260px; height: 6px;
+    background: #222;
+    border-radius: 99px;
+    overflow: hidden;
+    margin: 0 auto 14px;
+  }
+  .loader-bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 99px;
+    animation: loading-fill 3s cubic-bezier(.4,0,.6,1) forwards;
+  }
+  @keyframes loading-fill {
+    0%   { width: 0%; }
+    35%  { width: 45%; }
+    65%  { width: 72%; }
+    100% { width: 100%; }
+  }
+  .loader-dots {
+    display: flex; justify-content: center; gap: 8px; margin-top: 22px;
+  }
+  .loader-dot {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: dot-pulse 1.2s ease-in-out infinite;
+  }
+  .loader-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot-pulse {
+    0%,100% { opacity: 0.3; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.4); }
+  }
+  .loading-steps {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .lstep {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #555;
+    transition: color 0.4s;
+  }
+  .lstep.done { color: var(--gold-light); }
+  .lstep-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #333;
+    transition: background 0.4s;
+  }
+  .lstep.done .lstep-dot { background: var(--gold-light); }
+
+  /* ── RESULTADO ── */
+  #screen-result {
+    background: radial-gradient(ellipse at 50% 0%, rgba(212,160,23,0.08) 0%, transparent 60%), var(--bg);
+    padding-top: 56px;
+    padding-bottom: 64px;
+    text-align: center;
+  }
+  .result-level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .badge-low  { background: rgba(192,57,43,0.15);  border: 1px solid rgba(192,57,43,0.4);  color: #E74C3C; }
+  .badge-mid  { background: rgba(230,126,34,0.15); border: 1px solid rgba(230,126,34,0.4); color: #E67E22; }
+  .badge-rise { background: rgba(39,174,96,0.15);  border: 1px solid rgba(39,174,96,0.4);  color: #2ECC71; }
+
+  .result-headline {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(24px, 7vw, 32px);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FFF;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .result-headline span { color: var(--gold-light); }
+
+  .result-sub-desc {
+    font-size: 14px;
+    color: #888;
+    max-width: 340px;
+    margin: 0 auto 24px;
+    line-height: 1.6;
+  }
+
+  .result-card {
+    background: var(--bg3);
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 22px 18px;
+    margin-bottom: 18px;
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+  }
+  .rcard-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .rcard-row:last-child { margin-bottom: 0; }
+  .rcard-icon { font-size: 20px; min-width: 26px; text-align: center; margin-top: 2px; }
+  .rcard-text { font-size: 14px; line-height: 1.65; color: #CCC; }
+  .rcard-text strong { color: #FFF; font-weight: 600; }
+
+  .result-divider {
+    width: 100%; max-width: 400px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #2a2a2a, transparent);
+    margin: 18px 0;
+  }
+
+  .shift-block {
+    background: linear-gradient(135deg, rgba(212,160,23,0.07), rgba(212,160,23,0.02));
+    border: 1px solid rgba(212,160,23,0.18);
+    border-radius: 14px;
+    padding: 22px 18px;
+    width: 100%; max-width: 400px;
+    margin-bottom: 28px;
+    text-align: left;
+  }
+  .shift-block p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #CCC;
+    margin-bottom: 12px;
+  }
+  .shift-block p:last-child { margin-bottom: 0; }
+  .shift-block p strong { color: var(--gold-light); }
+  .shift-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFF;
+    line-height: 1.35;
+    margin-bottom: 14px;
+  }
+
+  .cta-wrap { width: 100%; max-width: 400px; }
+  .cta-sub {
+    font-size: 12px;
+    color: #555;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .cta-arrow {
+    display: block;
+    text-align: center;
+    color: var(--gold);
+    font-size: 22px;
+    margin-bottom: 12px;
+    animation: bounce-arrow 1.4s ease-in-out infinite;
+  }
+  @keyframes bounce-arrow {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(6px); }
+  }
+
+  .tagline {
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  @keyframes checkIn {
+    from { transform: scale(0) rotate(-20deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+  }
+  .check-anim { display: inline-block; animation: checkIn 0.3s cubic-bezier(.4,0,.2,1) both; }
+
+  /* Transição interna da pergunta */
+  #screen-questions { transition: opacity 0.25s, transform 0.3s; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- BARRA DE PROGRESSO -->
+  <div id="progress-wrap">
+    <div id="progress-label">
+      <span>O teu progresso</span>
+      <span id="progress-text">0 / 10</span>
+    </div>
+    <div id="progress-bar-track">
+      <div id="progress-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       ECRÃ INTRODUÇÃO
+  ════════════════════════════════ -->
+  <div class="screen active" id="screen-intro">
+
+    <div class="shield-wrap">
+      <svg class="shield-svg" width="72" height="80" viewBox="0 0 72 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M36 2L6 14V38C6 56 20 72 36 78C52 72 66 56 66 38V14L36 2Z" fill="url(#sg)" stroke="url(#sb)" stroke-width="1.5"/>
+        <text x="36" y="51" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" font-size="26" fill="#000">M</text>
+        <defs>
+          <linearGradient id="sg" x1="36" y1="2" x2="36" y2="78" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#D4A017"/>
+            <stop offset="100%" stop-color="#8B6510"/>
+          </linearGradient>
+          <linearGradient id="sb" x1="6" y1="2" x2="66" y2="78" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#F5C842"/>
+            <stop offset="100%" stop-color="#D4A017"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="intro-badge">⚡ Male Power Code</div>
+
+    <h1 class="intro-headline">
+      Porque é que ainda<br/>
+      <span>não és respeitado</span><br/>
+      como mereces?
+    </h1>
+
+    <div class="intro-divider"></div>
+
+    <p class="intro-sub">
+      Responde a algumas perguntas rápidas e descobre o que está verdadeiramente a travar o teu crescimento.
+    </p>
+
+    <button class="btn-primary" onclick="startQuiz()">Começar Agora →</button>
+
+    <p class="tagline" style="margin-top:24px;">⏱ Menos de 2 minutos</p>
+  </div>
+
+  <!-- ════════════════════════════════
+       ECRÃ PERGUNTAS
+  ════════════════════════════════ -->
+  <div class="screen" id="screen-questions">
+    <p class="q-number" id="q-number">Pergunta 1 de 10</p>
+    <p class="q-text"  id="q-text"></p>
+    <div class="options" id="q-options"></div>
+  </div>
+
+  <!-- ════════════════════════════════
+       ECRÃ LOADING / ANÁLISE
+  ════════════════════════════════ -->
+  <div class="screen" id="screen-loading">
+    <div style="margin-bottom:30px;">
+      <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+        <circle cx="29" cy="29" r="26" stroke="#222" stroke-width="3"/>
+        <circle cx="29" cy="29" r="26" stroke="url(#lg2)" stroke-width="3"
+          stroke-dasharray="163" stroke-dashoffset="40" stroke-linecap="round">
+          <animateTransform attributeName="transform" type="rotate"
+            from="0 29 29" to="360 29 29" dur="1.3s" repeatCount="indefinite"/>
+        </circle>
+        <defs>
+          <linearGradient id="lg2" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#D4A017"/>
+            <stop offset="1" stop-color="#F5C842"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <p class="loading-title">A analisar as tuas respostas…</p>
+    <p class="loading-sub">A construir o teu perfil pessoal</p>
+    <div class="loader-bar-track">
+      <div class="loader-bar-fill" id="loader-fill"></div>
+    </div>
+    <div class="loader-dots">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+    </div>
+    <div class="loading-steps" id="loading-steps">
+      <div class="lstep" id="ls1"><div class="lstep-dot"></div>A avaliar o teu nível de confiança…</div>
+      <div class="lstep" id="ls2"><div class="lstep-dot"></div>A medir a tua disciplina…</div>
+      <div class="lstep" id="ls3"><div class="lstep-dot"></div>A identificar os bloqueios…</div>
+      <div class="lstep" id="ls4"><div class="lstep-dot"></div>A preparar o teu resultado…</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       ECRÃ RESULTADO
+  ════════════════════════════════ -->
+  <div class="screen" id="screen-result">
+
+    <div id="result-badge" class="result-level-badge"></div>
+    <h2 class="result-headline" id="result-headline"></h2>
+    <p  class="result-sub-desc" id="result-desc"></p>
+
+    <div class="result-card">
+      <div class="rcard-row">
+        <div class="rcard-icon">🔍</div>
+        <div class="rcard-text">
+          <strong>Diagnóstico:</strong> Com base nas tuas respostas, ainda não estás a operar ao nível de confiança, disciplina e respeito de que és realmente capaz.
+        </div>
+      </div>
+      <div class="rcard-row">
+        <div class="rcard-icon">⚠️</div>
+        <div class="rcard-text" id="consequence-text"></div>
+      </div>
+      <div class="rcard-row">
+        <div class="rcard-icon">🧠</div>
+        <div class="rcard-text">
+          <strong>A boa notícia:</strong> Isto não é falta de capacidade. É falta do método certo. E isso pode mudar.
+        </div>
+      </div>
+    </div>
+
+    <div class="result-divider"></div>
+
+    <div class="shift-block">
+      <p class="shift-title">Mas a verdade é… isto pode mudar muito mais rápido do que pensas.</p>
+      <p>A maioria dos homens que se sentem presos não é falta de potencial — é falta do <strong>sistema certo</strong> para o desbloquear.</p>
+      <p>Existe um método simples que já está a ajudar homens como tu a <strong>reconstruir a confiança, a disciplina e o poder pessoal</strong> — desde a raiz.</p>
+      <p>Homens que eram invisíveis estão agora a <strong>conquistar respeito</strong>. Homens que estavam perdidos estão agora a <strong>liderar as suas próprias vidas</strong>.</p>
+    </div>
+
+    <div class="cta-wrap">
+      <span class="cta-arrow">▼</span>
+      <a class="btn-cta-final"
+         href="https://joaosachilombo442-eng.github.io/index.html/"
+         target="_blank" rel="noopener">
+        🔥 Ver Como Mudar Isto Agora
+      </a>
+      <p class="cta-sub">Sem compromisso. Apenas a verdade sobre o que é possível para ti.</p>
+    </div>
+
+    <p class="tagline" style="margin-top:36px;">Male Power Code · Todos os direitos reservados</p>
+  </div>
+
+</div><!-- #app -->
+
+<script>
+const questions = [
+  {
+    text: "Quando entras numa sala cheia de pessoas, normalmente sentes-te:",
+    options: [
+      { label: "A", text: "Confiante e notado", score: 0 },
+      { label: "B", text: "Neutro — nem bem nem mal", score: 1 },
+      { label: "C", text: "Invisível ou ignorado", score: 2 }
+    ]
+  },
+  {
+    text: "Como é que as pessoas geralmente te tratam?",
+    options: [
+      { label: "A", text: "Com respeito genuíno", score: 0 },
+      { label: "B", text: "Depende do dia", score: 1 },
+      { label: "C", text: "Como se eu não importasse", score: 2 }
+    ]
+  },
+  {
+    text: "O teu nível atual de disciplina é:",
+    options: [
+      { label: "A", text: "Forte — cumpro o que digo", score: 0 },
+      { label: "B", text: "Inconsistente — dias bons e maus", score: 1 },
+      { label: "C", text: "Fraco — raramente sigo em frente", score: 2 }
+    ]
+  },
+  {
+    text: "Sentes-te no controlo das tuas emoções?",
+    options: [
+      { label: "A", text: "Sim — mantenho a calma sob pressão", score: 0 },
+      { label: "B", text: "Às vezes — é muito variável", score: 1 },
+      { label: "C", text: "Não muito — elas controlam-me a mim", score: 2 }
+    ]
+  },
+  {
+    text: "A tua vida neste momento parece:",
+    options: [
+      { label: "A", text: "Organizada e no caminho certo", score: 0 },
+      { label: "B", text: "Incerta — não sei para onde vai", score: 1 },
+      { label: "C", text: "Fora de controlo — nada parece certo", score: 2 }
+    ]
+  },
+  {
+    text: "As tuas relações pessoais são:",
+    options: [
+      { label: "A", text: "Sólidas e satisfatórias", score: 0 },
+      { label: "B", text: "Instáveis — difíceis de manter", score: 1 },
+      { label: "C", text: "Fracas ou praticamente inexistentes", score: 2 }
+    ]
+  },
+  {
+    text: "Sentes-te atrasado na vida em relação a onde devias estar?",
+    options: [
+      { label: "A", text: "Não — estou onde preciso de estar", score: 0 },
+      { label: "B", text: "Um pouco — algumas áreas precisam de trabalho", score: 1 },
+      { label: "C", text: "Muito — sinto-me preso e para trás", score: 2 }
+    ]
+  },
+  {
+    text: "A tua mentalidade no dia a dia é:",
+    options: [
+      { label: "A", text: "Forte e focada", score: 0 },
+      { label: "B", text: "Instável — sobe e desce", score: 1 },
+      { label: "C", text: "Fraca e distraída", score: 2 }
+    ]
+  },
+  {
+    text: "Se nada mudar nos próximos 2 anos, a tua vida vai:",
+    options: [
+      { label: "A", text: "Melhorar naturalmente por si só", score: 0 },
+      { label: "B", text: "Ficar exatamente igual", score: 1 },
+      { label: "C", text: "Piorar — já consigo sentir", score: 2 }
+    ]
+  },
+  {
+    text: "No fundo, acreditas que poderias ser muito melhor do que és agora?",
+    options: [
+      { label: "A", text: "Sim — sei que o meu potencial é enorme", score: 2 },
+      { label: "B", text: "Talvez — só não sei como chegar lá", score: 2 },
+      { label: "C", text: "Com certeza — tenho estado a desperdiçar demasiado tempo", score: 2 }
+    ]
+  }
+];
+
+let currentQ   = 0;
+let totalScore = 0;
+
+/* ── utilidades ── */
+function showScreen(id) {
+  const current = document.querySelector('.screen.active');
+  if (current) {
+    current.classList.add('leaving');
+    setTimeout(() => {
+      current.classList.remove('active', 'leaving');
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }, 280);
+  } else {
+    document.getElementById(id).classList.add('active');
+  }
+}
+
+/* ── início ── */
+function startQuiz() {
+  document.getElementById('progress-wrap').style.display = 'block';
+  showScreen('screen-questions');
+  renderQuestion(0);
+}
+
+/* ── renderizar pergunta ── */
+function renderQuestion(index) {
+  const q = questions[index];
+  document.getElementById('q-number').textContent = `Pergunta ${index + 1} de ${questions.length}`;
+  document.getElementById('q-text').textContent   = q.text;
+
+  const pct = (index / questions.length) * 100;
+  document.getElementById('progress-bar-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent     = `${index} / ${questions.length}`;
+
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-label">${opt.label}</span>${opt.text}`;
+    btn.addEventListener('click', () => selectOption(btn, opt.score));
+    container.appendChild(btn);
+  });
+}
+
+/* ── selecionar opção ── */
+function selectOption(btn, score) {
+  document.getElementById('q-options')
+    .querySelectorAll('.option-btn')
+    .forEach(b => b.style.pointerEvents = 'none');
+
+  btn.classList.add('selected');
+  btn.querySelector('.option-label').innerHTML = '<span class="check-anim">✓</span>';
+  totalScore += score;
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < questions.length) {
+      const qs = document.getElementById('screen-questions');
+      qs.style.opacity   = '0';
+      qs.style.transform = 'translateY(-18px)';
+      qs.style.transition = 'opacity 0.22s, transform 0.22s';
+      setTimeout(() => {
+        renderQuestion(currentQ);
+        qs.style.opacity   = '1';
+        qs.style.transform = 'translateY(0)';
+        qs.style.transition = 'opacity 0.32s, transform 0.32s';
+      }, 230);
+    } else {
+      document.getElementById('progress-bar-fill').style.width = '100%';
+      document.getElementById('progress-text').textContent = '10 / 10';
+      showLoadingScreen();
+    }
+  }, 360);
+}
+
+/* ── loading animado ── */
+function showLoadingScreen() {
+  showScreen('screen-loading');
+
+  // Reset loader animation
+  const fill = document.getElementById('loader-fill');
+  fill.style.animation = 'none';
+  void fill.offsetWidth;
+  fill.style.animation = 'loading-fill 3s cubic-bezier(.4,0,.6,1) forwards';
+
+  // Animar passos
+  const steps = ['ls1','ls2','ls3','ls4'];
+  const delays = [600, 1200, 1900, 2500];
+  steps.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('done');
+    }, delays[i]);
+  });
+
+  setTimeout(showResult, 3400);
+}
+
+/* ── mostrar resultado ── */
+function showResult() {
+  document.getElementById('progress-wrap').style.display = 'none';
+
+  // Classificação: Q10 dá sempre 2 pts → score real = totalScore - 2 (das 9 primeiras)
+  const rawScore = totalScore - 2;        // 0–18
+  const maxRaw   = 18;
+  const pct      = rawScore / maxRaw;
+
+  let badgeClass, badgeIcon, badgeText, headlineHTML, descText, consequenceHTML;
+
+  if (pct < 0.35) {
+    badgeClass      = 'badge-rise';
+    badgeIcon       = '🟢';
+    badgeText       = 'Nível Ascendente';
+    headlineHTML    = 'Estás <span>no caminho</span> — mas podes ir muito mais longe';
+    descText        = 'Tens bases sólidas. Mas o teu potencial está ainda muito por explorar.';
+    consequenceHTML = '<strong>Atenção:</strong> Sem o sistema certo, é fácil estagnar e perder o impulso que já tens. O próximo nível exige uma mudança deliberada.';
+  } else if (pct < 0.65) {
+    badgeClass      = 'badge-mid';
+    badgeIcon       = '🟡';
+    badgeText       = 'Nível Médio — Potencial Adormecido';
+    headlineHTML    = 'Tens potencial — mas algo <span>está a travar-te</span>';
+    descText        = 'Sentes que tens mais dentro de ti, mas algo continua a impedir-te de o mostrar ao mundo.';
+    consequenceHTML = '<strong>Consequência:</strong> Se nada mudar, vais continuar a sentir essa frustração de saberes que vales mais, mas não conseguires provar — nem a ti mesmo.';
+  } else {
+    badgeClass      = 'badge-low';
+    badgeIcon       = '🔴';
+    badgeText       = 'Nível Baixo — Precisas de Mudança';
+    headlineHTML    = 'Estás <span>preso</span> — e a vida não vai esperar por ti';
+    descText        = 'As tuas respostas revelam padrões profundos que estão a sabotar a tua confiança, disciplina e respeito.';
+    consequenceHTML = '<strong>Realidade:</strong> Se nada mudar, a tua vida vai continuar exatamente onde está — ou vai piorar. Não por falta de capacidade, mas por falta da orientação certa.';
+  }
+
+  document.getElementById('result-badge').className = `result-level-badge ${badgeClass}`;
+  document.getElementById('result-badge').innerHTML  = `${badgeIcon} ${badgeText}`;
+  document.getElementById('result-headline').innerHTML = headlineHTML;
+  document.getElementById('result-desc').textContent   = descText;
+  document.getElementById('consequence-text').innerHTML = consequenceHTML;
+
+  showScreen('screen-result');
+}
+</script>
+</body>
+</html>
